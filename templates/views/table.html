@@ -1,0 +1,26 @@
+<div>
+    <table x-bind:id="get_route_id($router)">
+        <thead>
+            <tr>
+                <template x-for="col in page_data_columns">
+                    <th x-text="col"></th>
+                </template>
+                <th>Update</th>
+                <th>Delete</th>
+                <th>View Details</th>            
+            </tr>
+        </thead>
+        <tbody>
+            <template x-for="(data,key) in page_data">
+                <tr>
+                    <template x-for="col in page_data_columns">
+                        <td x-text="col == 'name' ? key:data[col]"></td>
+                    </template>             
+                    <td><a x-bind:href="get_relative_link($router,'update',key)">Update</a></td>
+                    <td><a href="#" x-on:click.prevent="delete_entry($router,key)">Delete</a></td>
+                    <td><a x-bind:href="get_relative_link($router,'get',key)">View Details</a></td>                                   
+                </tr>
+            </template>            
+        </tbody>
+    </table>  
+</div>

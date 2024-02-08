@@ -1,0 +1,39 @@
+<div>
+    <h2>Query Plan Details</h2>
+    <table>
+        <template x-for="plan_entry in page_data">
+            <tr>
+                <td x:text="'&nbsp;'.repeat(plan_entry['indent'])"></td>
+                <td>
+                    <dl>
+                        <dt>type</dt>
+                        <dd x-text="plan_entry['type']"></dd>                          
+                        <dt>summary</dt>
+                        <dd x-text="plan_entry['summary']"></dd>      
+                        <dt>duration </dt>
+                        <dd><span x-text="plan_entry['start_time']"></span> - <span x-text="plan_entry['end_time']"></span> (<span x-text="plan_entry['duration']/1000000000"></span> s [<span x-text="plan_entry['duration']"></span> ns])</dd>                                                        
+                        <dt>details</dt>
+                        <dd>
+                            <template x-for="(dval,dkey) in plan_entry['details']">
+                                <div x-data="{multi_detail: typeof dval === 'object',not_null: dval != null}">
+                                    <strong x-text="dkey + ':'"></strong>                 
+                                    <template x-if="multi_detail && not_null">
+                                        <dl>
+                                            <template x-for="(dval2,dkey2) in dval">
+                                                <div><dt x-text="dkey2 + ':'"></dt><dd x-text="dval2"></dd></div>
+                                            </template>
+                                        </dl>
+                                    </template>
+                                    <template x-if="!multi_detail || !not_null">
+                                        <span x-text="not_null ? dval:'N/A'"></span>
+                                    </template>
+                                </div>
+                            </template>
+                        </dd>
+                        </template>
+                    </dl>
+                </td>
+            </tr>
+        </template>
+    </table>  
+</div>                                   

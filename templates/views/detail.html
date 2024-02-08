@@ -1,0 +1,37 @@
+<div>
+    <h2>Details</h2>
+    <table role="grid">
+        <template x-for="(val,key) in page_data">
+            <tr x-data="{multi_detail: (key == 'auth' || key == 'endpoint_mappings'),not_null: val != null}">
+                <th x-text="key"></th>
+                <template x-if="multi_detail && not_null">
+                    <td>
+                        <dl>
+                            <template x-for="(dval,dkey) in page_data[key]">
+                                <div>
+                                    <dt x-text="dkey"></dt>
+                                    <template x-if="key == 'endpoint_mappings'">
+                                        <dd>
+                                            <template x-for="(dval2,dkey2) in page_data[key][dkey]">
+                                                <div>
+                                                    <strong x-text="dkey2 + ':'"></strong>
+                                                    <span x-text="dval2"></span>
+                                                </div>
+                                            </template>
+                                        </dd>
+                                    </template>
+                                    <template x-if="key != 'endpoint_mappings'">
+                                        <dd x-text="dval"></dd>
+                                    </template>                                        
+                                </div>
+                            </template>
+                        </dl>
+                    </td>
+                </template>
+                <template x-if="!multi_detail || !not_null">
+                    <td x-text="not_null ? val:'N/A'"></td>
+                </template>
+            </tr>
+        </template>
+    </table>  
+</div>                                   

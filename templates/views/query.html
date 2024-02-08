@@ -1,0 +1,34 @@
+<div>
+    Run Endpoint: <form method="post" id="endpoint_run" x-on:submit.prevent="run_endpoint($el)">
+        <select name="endpoint">
+            <template x-for="(data,key) in page_data">
+                <option x-bind:value="key" x-text="data.endpoint"></option>
+            </template>
+        </select><button x-text="poll_interval_id ? 'Running':'Run'" x-bind:disabled="poll_interval_id ? true:false"></button>
+        <span x-show="!form_successful" x-text="form_response.endpoint"></span>
+    </form><br/>
+    Run Query: <form method="post" id="query_run" x-on:submit.prevent="run_query($el)">
+        <input type="text" name="query"/><button x-text="poll_interval_id ? 'Running':'Run'" x-bind:disabled="poll_interval_id ? true:false"></button>
+        <span x-show="!form_successful" x-text="form_response.query"></span>
+    </form>
+    <template x-if="result_set_successful && ! result_set_empty">
+        <table>
+            <thead>               
+                <tr>
+                    <template x-for="(col,index) in result_set_columns" :key="index">
+                        <td x-text="col"></td>
+                    </template>
+                </tr>
+            </thead>
+            <tbody>   
+                <template x-for="row in result_set">
+                    <tr>
+                        <template x-for="(col,index) in result_set_columns" :key="index">
+                            <td x-text="row[index]"></td>
+                        </template>
+                    </tr>                    
+                </template>
+            </tbody>
+        </table>
+    </template>  
+</div>

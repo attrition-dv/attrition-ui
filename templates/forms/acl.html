@@ -1,0 +1,396 @@
+<div class="full_width_section">
+    <form method="post" x-bind:id="get_route_id($router)" x-on:submit.prevent="submit($el)" autocomplete="off">
+        <table x-bind:id="get_route_id($router) + '_table'">
+            <thead>
+                <tr>
+                    <th scope="colgroup" colspan="4">Identity</th>
+                    <th scope="colgroup" colspan="5">Model</th>   
+                    <th scope="colgroup" colspan="5">Endpoint</th>                                         
+                    <th scope="colgroup" colspan="5">ACL</th>    
+                    <th scope="colgroup" colspan="5">Data Source</th> 
+                    <th scope="colgroup" colspan="5">Query</th>       
+                    <th scope="colgroup" colspan="5">Query Plan</th>                                                                                   
+                    <th scope="colgroup" colspan="5">Request</th>                          
+                </tr>
+                <tr>
+                    <!-- Identity -->
+                    <td scope="col">Type</td>
+                    <td scope="col">ID</td>
+                    <td scope="col">Source</td>
+                    <td scope="col">Disabled?</td>                    
+                    <!-- Model -->
+                    <td scope="col">Add</td>
+                    <td scope="col">Update</td>
+                    <td scope="col">Delete</td>    
+                    <td scope="col">Get</td>      
+                    <td scope="col">Run</td>    
+                    <!-- Endpoint -->
+                    <td scope="col">Add</td>
+                    <td scope="col">Update</td>
+                    <td scope="col">Delete</td>    
+                    <td scope="col">Get</td>      
+                    <td scope="col">Run</td>    
+                    <!-- ACL -->
+                    <td scope="col">Add</td>
+                    <td scope="col">Update</td>
+                    <td scope="col">Delete</td>    
+                    <td scope="col">Get</td>      
+                    <td scope="col">Run</td>                                                                                                    
+                    <!-- Data Source -->
+                    <td scope="col">Add</td>
+                    <td scope="col">Update</td>
+                    <td scope="col">Delete</td>    
+                    <td scope="col">Get</td>      
+                    <td scope="col">Run</td>     
+                    <!-- Query -->
+                    <td scope="col">Add</td>
+                    <td scope="col">Update</td>
+                    <td scope="col">Delete</td>    
+                    <td scope="col">Get</td>      
+                    <td scope="col">Run</td> 
+                    <!-- Query Plan -->
+                    <td scope="col">Add</td>
+                    <td scope="col">Update</td>
+                    <td scope="col">Delete</td>    
+                    <td scope="col">Get</td>      
+                    <td scope="col">Run</td>   
+                    <!-- Request -->
+                    <td scope="col">Add</td>
+                    <td scope="col">Update</td>
+                    <td scope="col">Delete</td>    
+                    <td scope="col">Get</td>      
+                    <td scope="col">Run</td>                                                                                      
+                </tr>
+            </thead>
+            <tbody x-data="{acl_field_count: 0,acl_additional_fields: 0}" x-modelable="acl_field_count" x-model.number="page_data_count">
+                <template x-for="(acl_def,field_index) in page_data" :key="field_index">
+                    <tr x-bind:id="'acl-' + field_index + '-row'">
+                        <!-- Identity -->
+                        <td><input type="hidden" x-bind:name="'acl-' + field_index + '-ident.type'" x-bind:value="acl_def['ident.type']"/><span x-text="acl_def['ident.type']"></span></td>
+                        <td><input type="hidden" x-bind:name="'acl-' + field_index + '-ident.id'" x-bind:value="acl_def['ident.id']"/><span x-text="acl_def['ident.id']"></span></td>
+                        <td><input type="hidden" x-bind:name="'acl-' + field_index + '-ident.subtype'" x-bind:value="acl_def['ident.subtype']"/><span x-text="acl_def['ident.subtype']"></span></td>
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.disabled'">
+                            <option value="true" x-bind:selected="acl_def['acls.disabled'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['acls.disabled'] ? '':'selected'">No</option>
+                        </select></td>                        
+                        <!-- Model -->
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.model.add'">
+                            <option value="true" x-bind:selected="acl_def['model.add'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['model.add'] ? '':'selected'">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.model.update'">
+                            <option value="true" x-bind:selected="acl_def['model.update'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['model.update'] ? '':'selected'">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.model.delete'">
+                            <option value="true" x-bind:selected="acl_def['model.delete'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['model.delete'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.model.get'">
+                            <option value="true" x-bind:selected="acl_def['model.get'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['model.get'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.model.run'">
+                            <option value="true" x-bind:selected="acl_def['model.run'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['model.run'] ? '':'selected'">No</option>
+                        </select></td>                                                                                          
+                        <!-- Endpoint -->
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.endpoint.add'">
+                            <option value="true" x-bind:selected="acl_def['endpoint.add'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['endpoint.add'] ? '':'selected'">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.endpoint.update'">
+                            <option value="true" x-bind:selected="acl_def['endpoint.update'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['endpoint.update'] ? '':'selected'">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.endpoint.delete'">
+                            <option value="true" x-bind:selected="acl_def['endpoint.delete'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['endpoint.delete'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.endpoint.get'">
+                            <option value="true" x-bind:selected="acl_def['endpoint.get'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['endpoint.get'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.endpoint.run'">
+                            <option value="true" x-bind:selected="acl_def['endpoint.run'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['endpoint.run'] ? '':'selected'">No</option>
+                        </select></td>    
+                        <!-- ACL -->
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.acl.add'">
+                            <option value="true" x-bind:selected="acl_def['acl.add'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['acl.add'] ? '':'selected'">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.acl.update'">
+                            <option value="true" x-bind:selected="acl_def['acl.update'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['acl.update'] ? '':'selected'">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.acl.delete'">
+                            <option value="true" x-bind:selected="acl_def['acl.delete'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['acl.delete'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.acl.get'">
+                            <option value="true" x-bind:selected="acl_def['acl.get'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['acl.get'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.acl.run'">
+                            <option value="true" x-bind:selected="acl_def['acl.run'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['acl.run'] ? '':'selected'">No</option>
+                        </select></td>    
+                        <!-- Data Source -->
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.data_source.add'">
+                            <option value="true" x-bind:selected="acl_def['data_source.add'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['data_source.add'] ? '':'selected'">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.data_source.update'">
+                            <option value="true" x-bind:selected="acl_def['data_source.update'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['data_source.update'] ? '':'selected'">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.data_source.delete'">
+                            <option value="true" x-bind:selected="acl_def['data_source.delete'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['data_source.delete'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.data_source.get'">
+                            <option value="true" x-bind:selected="acl_def['data_source.get'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['data_source.get'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.data_source.run'">
+                            <option value="true" x-bind:selected="acl_def['data_source.run'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['data_source.run'] ? '':'selected'">No</option>
+                        </select></td>    
+                        <!-- Query -->
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.query.add'">
+                            <option value="true" x-bind:selected="acl_def['query.add'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['query.add'] ? '':'selected'">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.query.update'">
+                            <option value="true" x-bind:selected="acl_def['query.update'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['query.update'] ? '':'selected'">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.query.delete'">
+                            <option value="true" x-bind:selected="acl_def['query.delete'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['query.delete'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.query.get'">
+                            <option value="true" x-bind:selected="acl_def['query.get'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['query.get'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.query.run'">
+                            <option value="true" x-bind:selected="acl_def['query.run'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['query.run'] ? '':'selected'">No</option>
+                        </select></td>    
+                        <!-- Query Plan -->
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.query_plan.add'">
+                            <option value="true" x-bind:selected="acl_def['query_plan.add'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['query_plan.add'] ? '':'selected'">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.query_plan.update'">
+                            <option value="true" x-bind:selected="acl_def['query_plan.update'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['query_plan.update'] ? '':'selected'">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.query_plan.delete'">
+                            <option value="true" x-bind:selected="acl_def['query_plan.delete'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['query_plan.delete'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.query_plan.get'">
+                            <option value="true" x-bind:selected="acl_def['query_plan.get'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['query_plan.get'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.query_plan.run'">
+                            <option value="true" x-bind:selected="acl_def['query_plan.run'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['query_plan.run'] ? '':'selected'">No</option>
+                        </select></td>    
+                        <!-- Request -->
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.request.add'">
+                            <option value="true" x-bind:selected="acl_def['request.add'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['request.add'] ? '':'selected'">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.request.update'">
+                            <option value="true" x-bind:selected="acl_def['request.update'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['request.update'] ? '':'selected'">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.request.delete'">
+                            <option value="true" x-bind:selected="acl_def['request.delete'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['request.delete'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.request.get'">
+                            <option value="true" x-bind:selected="acl_def['request.get'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['request.get'] ? '':'selected'">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + field_index + '-acls.request.run'">
+                            <option value="true" x-bind:selected="acl_def['request.run'] ? 'selected':''">Yes</option>
+                            <option value="false" x-bind:selected="acl_def['request.run'] ? '':'selected'">No</option>
+                        </select></td> 
+                    </tr>  
+                </template>   
+                <template x-for="add_index in acl_additional_fields" :key="(acl_field_count - 1) + add_index">
+                    <tr x-bind:id="'acl-' + ((acl_field_count - 1) + add_index) + '-row'">
+                        <!-- Identity -->
+                        <td><input type="text" x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-ident.type'"/></td>
+                        <td><input type="text" x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-ident.id'"/></td>
+                        <td><input type="hidden" x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-ident.subtype'" value="ldap"/><span>ldap</span></td>
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.disabled'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>                        
+                        <!-- Model -->
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.model.add'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.model.update'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.model.delete'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.model.get'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.model.run'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>                                                                                          
+                        <!-- Endpoint -->
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.endpoint.add'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.endpoint.update'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.endpoint.delete'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.endpoint.get'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.endpoint.run'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>    
+                        <!-- ACL -->
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.acl.add'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.acl.update'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.acl.delete'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.acl.get'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.acl.run'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>    
+                        <!-- Data Source -->
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.data_source.add'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.data_source.update'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.data_source.delete'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.data_source.get'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.data_source.run'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>    
+                        <!-- Query -->
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.query.add'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.query.update'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.query.delete'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.query.get'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.query.run'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>    
+                        <!-- Query Plan -->
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.query_plan.add'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.query_plan.update'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.query_plan.delete'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.query_plan.get'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.query_plan.run'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>    
+                        <!-- Request -->
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.request.add'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.request.update'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>   
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.request.delete'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.request.get'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td>     
+                        <td><select x-bind:name="'acl-' + ((acl_field_count - 1) + add_index) + '-acls.request.run'">
+                            <option value="true">Yes</option>
+                            <option value="false" selected="selected">No</option>
+                        </select></td> 
+                    </tr>                             
+                </template>
+                <tr id="acl_buttons">
+                    <td><button x-on:click.prevent="acl_additional_fields++">+</button></td>
+                    <td><button x-on:click.prevent="acl_additional_fields--">-</button></td>                    
+                </tr>                                                                                                                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="39"><button type="submit">Submit</button></td>
+                </tr>
+            </tfoot>        
+        </table>
+    </form>
+</div>

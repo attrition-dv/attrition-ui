@@ -1,0 +1,9 @@
+<div>
+    <template x-if="!form_submitted || form_submitted && !form_successful">
+        <form method="post" x-bind:id="get_route_id($router)" x-on:submit.prevent="submit($el)">
+            Endpoint: <strong x-show="page_data.endpoint" x-text="page_data.endpoint"></strong><input x-bind:type="page_data.endpoint ? 'hidden':'text'" name="endpoint" x-bind:value="page_data.endpoint"/><span x-show="!form_successful" x-text="form_response.endpoint"></span><br/>
+            Model: <input type="text" name="model" x-bind:value="page_data.model"/><span x-show="!form_successful" x-text="form_response.model"></span><br/>
+            <button type="submit">Submit</button>
+        </form>    
+    </template>
+</div>

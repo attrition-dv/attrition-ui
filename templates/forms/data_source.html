@@ -1,0 +1,82 @@
+<div x-data="{selected_connector_type: ''}">
+    <template x-if="!form_submitted || form_submitted && !form_successful">
+        <form method="post" x-bind:id="get_route_id($router)" x-on:submit.prevent="submit($el)">
+            Data Source Name: <strong x-show="page_data.data_source" x-text="page_data.data_source"></strong><input x-bind:type="page_data.data_source ? 'hidden':'text'" name="data_source" x-bind:value="page_data.data_source"/><span x-show="!form_successful" x-text="form_response.data_source"></span><br/>
+            <!-- Connector Type: <select x-model="selected_connector_type" name="type" x-bind:disabled=" ? true:false">
+                <option disabled>Select a connector type..</option>
+                <template x-for="connector_name in get_data_source_connector_types()">
+                    <option x-bind:value="connector_name" x-text="get_data_source_connector_label(connector_name)" x-bind:selected="page_data.type == connector_name ? 'selected':''"></option>
+                </template> -->
+            Connector Type: <template x-if="!page_data.type">
+                <select x-model="selected_connector_type" name="type">
+                <option>Select a connector type..</option>
+                <template x-for="connector_name in get_data_source_connector_types()">
+                    <option x-bind:value="connector_name" x-text="get_data_source_connector_label(connector_name)"></option>
+                </template>                
+            </select></template>
+            <template x-if="page_data.type">
+                <span><strong x-text="get_data_source_connector_label(page_data.type)"></strong><input type="hidden" name="type" x-bind:value="page_data.type"/></span></template>
+            <span x-show="!form_successful" x-text="form_response.type"></span><br/>    
+            Connector Version: <template x-if="!page_data.version">
+                <select name="version">
+                <template x-for="connector_version in get_data_source_connector_versions(selected_connector_type)">
+                    <option x-bind:value="connector_version" x-text="connector_version"></option>
+                </template>
+            </select></template>
+            <template x-if="page_data.version"><span><strong x-text="page_data.version"></strong><input type="hidden" name="version" x-bind:value="page_data.version"/></span></template>
+            <span x-show="!form_successful" x-text="form_response.version"></span><br/>   
+            <template x-if="(selected_connector_type == 'REST' || page_data.type == 'REST') || (selected_connector_type == 'PostgreSQL' || page_data.type == 'PostgreSQL') || (selected_connector_type == 'MariaDB' || page_data.type == 'MariaDB')">
+                <div>
+                    Kerberos SPN:
+                    <input type="text" name="auth.spn" x-bind:value="page_data.auth?.spn"/><span x-show="!form_successful" x-text="form_response.auth"></span><br/>                
+                    <input type="hidden" name="auth.type" value="kerberos"/>            
+                </div>    
+            </template>
+            <template x-if="selected_connector_type == 'REST' || page_data.type == 'REST'">
+                <div x-data="{endpoint_mapping_count: 0,additional_endpoint_mappings: 0}" x-modelable="endpoint_mapping_count" x-model.number="page_data_endpoint_mapping_count">                  
+                URL: <input type="text" name="url" x-bind:value="page_data.url"/><span x-show="!form_successful" x-text="form_response.url"></span><br/>
+                Endpoint Mappings: <span x-show="!form_successful" x-text="form_response.endpoint_mappings"></span><br/> 
+                <template x-for="(endpoint_def,field_index) in page_data.endpoint_mappings" :key="field_index">
+                    <div>
+                        Name: <input type="text" x-bind:name="'endpoint_mapping-' + field_index + '-name'" x-bind:value="endpoint_def['name']"/><br/>
+                        URI: <input type="text" x-bind:name="'endpoint_mapping-' + field_index + '-uri'" x-bind:value="endpoint_def['uri']"/><br/>
+                        JSONPath Expression: <input type="text" x-bind:name="'endpoint_mapping-' + field_index + '-result_path'" x-bind:value="endpoint_def['result_path']"/><br/>
+                        <button type="button" x-on:click.prevent="$el.parentNode.remove()">DELETE</button>
+                        <br/>
+                    </div>
+                </template>
+                <template x-for="add_index in additional_endpoint_mappings" :key="(endpoint_mapping_count - 1) + add_index">
+                    <div>
+                        Name: <input type="text" x-bind:name="'endpoint_mapping-' + ((endpoint_mapping_count - 1) + add_index)+ '-name'"/><br/>
+                        URI: <input type="text" x-bind:name="'endpoint_mapping-' + ((endpoint_mapping_count - 1) + add_index)+ '-uri'"/><br/>
+                        JSONPath to results: <input type="text" x-bind:name="'endpoint_mapping-' + ((endpoint_mapping_count - 1) + add_index)+ '-result_path'"/><br/>
+                        <br/>
+                    </div>                        
+                </template>
+                <div id="endpoint_mapping_buttons">
+                    <button x-on:click.prevent="additional_endpoint_mappings++">+</button>
+                    <button x-on:click.prevent="additional_endpoint_mappings > 0 ? additional_endpoint_mappings--:false">-</button>                   
+                </div>                       
+            </div>
+            </template>
+            <template x-if="(selected_connector_type == 'JSON' || selected_connector_type == 'CSV') || (page_data.type == 'JSON' || page_data.type == 'CSV')">
+                <div>
+                    File Path: <input type="text" name="path" x-bind:value="page_data.path"/><span x-show="!form_successful" x-text="form_response.path"></span><br/>
+                    <template x-if="selected_connector_type == 'JSON' || page_data.type == 'JSON'">
+                        <div>JSONPath to records: <input type="text" name="result_path" x-bind:value="page_data.result_path"/><span x-show="!form_successful" x-text="form_response.result_path"></span><br/></div>
+                    </template>
+                    <template x-if="selected_connector_type == 'CSV' || page_data.type == 'CSV'">
+                        <div>Field Separator: <input type="text" name="field_separator" x-bind:value="page_data.field_separator"/><span x-show="!form_successful" x-text="form_response.field_separator"></span><br/></div>
+                    </template>                    
+                </div>
+            </template>
+            <template x-if="(selected_connector_type == 'PostgreSQL' || page_data.type == 'PostgreSQL') || (selected_connector_type == 'MariaDB' || page_data.type == 'MariaDB')">
+                <div>
+                    Hostname: <input type="text" name="hostname" x-bind:value="page_data.hostname"/><span x-show="!form_successful" x-text="form_response.hostname"></span><br/>
+                    Database Name: <input type="text" name="database" x-bind:value="page_data.database"/><span x-show="!form_successful" x-text="form_response.database"></span><br/>               
+                </div>
+            </template>                       
+            <button type="submit">Submit</button>
+        </form>    
+    </template>
+</div>

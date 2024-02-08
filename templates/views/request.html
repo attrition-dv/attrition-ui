@@ -1,0 +1,22 @@
+<div>
+    <table x-bind:id="get_route_id($router)">
+        <thead>
+            <tr>
+                <template x-for="col in page_data_columns">
+                    <th x-text="col"></th>
+                </template>
+                <th>View Query Plan</th>            
+            </tr>
+        </thead>
+        <tbody>
+            <template x-for="(data,key) in page_data">
+                <tr>
+                    <template x-for="col in page_data_columns">
+                        <td x-text="col == 'request_id' ? key:data[col]"></td>
+                    </template>             
+                    <td><a x-bind:href="get_link('query_plan','get',key)">View Query Plan</a></td>                                   
+                </tr>
+            </template>            
+        </tbody>
+    </table>  
+</div>

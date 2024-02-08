@@ -1,0 +1,9 @@
+<div>
+    <template x-if="!form_submitted || form_submitted && !form_successful">
+        <form method="post" x-bind:id="get_route_id($router)" x-on:submit.prevent="submit($el)">
+            Model: <strong x-show="page_data.model" x-text="page_data.model"></strong><input x-bind:type="page_data.model ? 'hidden':'text'" name="model" x-bind:value="page_data.model"/><span x-show="!form_successful" x-text="form_response.model"></span><br/>
+            Query: <input type="text" name="query" x-bind:value="page_data.query"/><span x-show="!form_successful" x-text="form_response.query"></span><br/>
+            <button type="submit">Submit</button>
+        </form>    
+    </template>
+</div>
